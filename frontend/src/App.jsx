@@ -14,7 +14,7 @@ const handleSubmit = async () => {
     console.log("Sending code:", code)
 
     const res = await axios.post(
-      "http://localhost:3000/ai/get-response",
+      import.meta.env.BACKEND_URL,
       { code },
       { timeout: 10000 }
     )
