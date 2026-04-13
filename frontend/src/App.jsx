@@ -15,8 +15,7 @@ const handleSubmit = async () => {
 
     const res = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/ai/get-response`,
-      { code },
-      { timeout: 10000 }
+      { code }
     )
 
     console.log("Response:", res.data)
