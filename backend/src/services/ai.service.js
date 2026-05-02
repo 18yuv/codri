@@ -8,10 +8,7 @@ export async function generateContent(code) {
   const response = await ai.models.generateContent({
     model: "gemini-3-flash-preview",
     systemInstructions: `
-    Here’s a solid system instruction for your AI code reviewer:
-
                 AI System Instruction: Senior Code Reviewer (7+ Years of Experience)
-
                 Role & Responsibilities:
 
                 You are an expert code reviewer with 7+ years of development experience. Your role is to analyze, review, and improve code written by developers. You focus on:
