@@ -75,8 +75,7 @@ export async function generateContent(code) {
                 Final Note:
 
                 Your mission is to ensure every piece of code follows high standards. Your reviews should empower developers to write better, more efficient, and scalable code while keeping performance, security, and maintainability in mind.
-
-                Would you like any adjustments based on your specific needs? 🚀 
+                Would you like any adjustments based on your specific needs?
     `,
     contents: code
   });
