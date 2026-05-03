@@ -1,4 +1,5 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/firebase";
 
 const login = async (email, password) => {
     try {
@@ -9,12 +10,7 @@ const login = async (email, password) => {
             return;
         }
 
-        const token = await userCred.user.getIdToken();
-        await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth`, {
-            headers : {
-                Authorization: `Bearer ${token}`,
-            }
-        });
+        const token = await userCred.user.getIdToken(true);
     } catch (err) {
         console.log(err);
     }

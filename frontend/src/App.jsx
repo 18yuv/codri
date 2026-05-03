@@ -5,10 +5,13 @@ import LandingPage from "./pages/LandingPage.jsx"
 import LoginPage from "./pages/Login.jsx"
 import SignupPage from "./pages/Signup.jsx"
 import ProtectedRoute from "./components/protectedRoute.jsx";
+import NotFound from "./pages/NotFound.jsx";
 
 
 function App() {
+  const { loading } = useAuth();
 
+  if (loading) return <p>Initializing...</p>;
   return (
     <>
       <Toaster position="top-right" />

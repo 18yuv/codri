@@ -13,11 +13,15 @@ export const AuthProvider = ({ children }) => {
       if (firebaseUser) {
         try {
           const token = await firebaseUser.getIdToken();
-          await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
+          const res = await axios.post(
+            `${import.meta.env.VITE_BACKEND_URL}/api/auth`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
             }
-          });
+          );
 
           const dbUser = await res.json();
 
