@@ -1,65 +1,25 @@
-import './App.css'
-import { useState } from 'react'
-import ReactMarkdown from "react-markdown"
-import axios from "axios"
+import { Toaster } from "react-hot-toast";
+import { Routes, Route } from "react-router-dom";
+import Dashboard from "./pages/Dashboard.jsx"
+import LandingPage from "./pages/LandingPage.jsx"
+import LoginPage from "./pages/Login.jsx"
+import SignupPage from "./pages/Signup.jsx"
+import ProtectedRoute from "./components/protectedRoute.jsx";
+
 
 function App() {
-  const [code, setCode] = useState("")
-  const [response, setResponse] = useState("")
-  const [loading, setLoading] = useState(false)
-
-const handleSubmit = async () => {
-  try {
-    setLoading(true)
-    console.log("Sending code:", code)
-
-    const res = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/ai/get-response`,
-      { code }
-    )
-
-    console.log("Response:", res.data)
-
-    setResponse(res.data.result)
-
-  } catch (error) {
-    console.log("FULL ERROR:", error)
-
-    if (error.code === "ECONNABORTED") {
-      setResponse("⏱️ Timeout")
-    } else if (error.response) {
-      setResponse(`❌ ${error.response.data.message}`)
-    } else {
-      setResponse("❌ Server not responding")
-    }
-  } finally {
-    setLoading(false)
-  }
-}
 
   return (
-    <main>
-      <div className="left">
-        <div className="code">
-          <textarea
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            placeholder="Write your code here..."
-          />
-        </div>
-
-        <button className="review" onClick={handleSubmit}>
-          {loading ? "Reviewing..." : "Review"}
-        </button>
-      </div>
-
-      <div className="right">
-        <h2>Output</h2>
-        <ReactMarkdown>
-          {response || "Your AI review will appear here..."}
-        </ReactMarkdown>
-      </div>
-    </main>
+    <>
+      <Toaster position="top-right" />
+      <Routes>
+        <Route index element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/Signup" element={<SignupPage />} />
+        <Route path="/dashboard" element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   )
 }
 
