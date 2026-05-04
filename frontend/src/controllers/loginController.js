@@ -6,6 +6,7 @@ const login = async (email, password) => {
 
         const userCred = await signInWithEmailAndPassword(auth, email, password);
         if (!userCred.user.emailVerified) {
+            await signOut(auth);
             alert("Please verify your email first!");
             return;
         }
@@ -15,3 +16,5 @@ const login = async (email, password) => {
         console.log(err);
     }
 };
+
+export default login;

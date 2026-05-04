@@ -11,3 +11,5 @@ const signup = async (email, password) => {
     }
 
 };
+
+export default signup;

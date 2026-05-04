@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../firebase/firebase";
 import { onIdTokenChanged } from "firebase/auth";
+import axios from "axios";
 
 const AuthContext = createContext();
 
@@ -23,7 +24,7 @@ export const AuthProvider = ({ children }) => {
             }
           );
 
-          const dbUser = await res.json();
+          const dbUser = res.data;
 
           setUser({
             ...dbUser,

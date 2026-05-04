@@ -6,6 +6,7 @@ import LoginPage from "./pages/Login.jsx"
 import SignupPage from "./pages/Signup.jsx"
 import ProtectedRoute from "./components/protectedRoute.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import { useAuth } from "./context/authContext.jsx";
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
       <Routes>
         <Route index element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/Signup" element={<SignupPage />} />
+        <Route path="/signup" element={<SignupPage />} />
         <Route path="/dashboard" element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
