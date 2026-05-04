@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { auth } from "../firebase/firebase";
+import { auth } from "../services/firebase.js";
 import { onIdTokenChanged } from "firebase/auth";
 import axios from "axios";
 

@@ -1,5 +1,5 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/firebase";
+import { auth } from "../services/firebase.js";
 
 const login = async (email, password) => {
     try {
@@ -7,7 +7,7 @@ const login = async (email, password) => {
         const userCred = await signInWithEmailAndPassword(auth, email, password);
         if (!userCred.user.emailVerified) {
             await signOut(auth);
-            alert("Please verify your email first!");
+            throw new Error("Email not verified");
             return;
         }
 
