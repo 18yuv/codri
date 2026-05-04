@@ -6,7 +6,7 @@ import LoginPage from "./pages/Login.jsx"
 import SignupPage from "./pages/Signup.jsx"
 import ProtectedRoute from "./components/protectedRoute.jsx";
 import NotFound from "./pages/NotFound.jsx";
-import { useAuth } from "./context/AuthContext.jsx";
+import { useAuth } from "./context/authContext.jsx";
 
 
 function App() {
