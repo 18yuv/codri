@@ -62,18 +62,26 @@ export default function LoginPage() {
     }
   };
 
-  const handleError = (err) => {
-    switch (err.code) {
-      case "auth/user-not-found":
-        toast.error("User not found");
-        break;
-      case "auth/wrong-password":
-        toast.error("Incorrect password");
-        break;
-      default:
-        toast.error("Login failed");
-    }
-  };
+const handleError = (err) => {
+  switch (err.code) {
+    case "auth/user-not-found":
+      toast.error("User not found");
+      break;
+    case "auth/wrong-password":
+      toast.error("Incorrect password");
+      break;
+    case "auth/invalid-email":
+      toast.error("Invalid email");
+      break;
+
+    case "EMAIL_NOT_VERIFIED":
+      toast.error("Please verify your email first");
+      break;
+
+    default:
+      toast.error("Login failed");
+  }
+};
 
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center px-4 relative overflow-hidden">
