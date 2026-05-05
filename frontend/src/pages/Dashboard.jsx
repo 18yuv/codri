@@ -71,16 +71,17 @@ export default function Dashboard() {
   }, [result]);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-black text-white">
+
       {/* Header */}
-      <div className="flex justify-between items-center px-6 py-4 bg-white shadow">
-        <h1 className="text-xl font-semibold">AI Code Reviewer</h1>
+      <div className="flex justify-between items-center px-6 py-4 border-b border-white/10 backdrop-blur bg-black/60">
+        <h1 className="text-lg font-semibold">Codri</h1>
 
         <div className="flex items-center gap-4">
-          <span className="text-sm text-gray-600">{user?.email}</span>
+          <span className="text-sm text-white/60">{user?.email}</span>
           <button
             onClick={handleLogout}
-            className="bg-black text-white px-4 py-1 rounded-lg text-sm"
+            className="border border-white px-4 py-1 rounded-lg text-sm hover:bg-white hover:text-black transition"
           >
             Logout
           </button>
@@ -89,13 +90,18 @@ export default function Dashboard() {
 
       {/* Main */}
       <div className="max-w-5xl mx-auto p-6 space-y-6">
+
         {/* Input */}
-        <div className="bg-white p-4 rounded-xl shadow">
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="text-lg font-medium">Paste your code</h2>
+        <div className="border border-white/20 bg-black/60 backdrop-blur p-5 rounded-2xl">
+
+          <div className="flex justify-between items-center mb-3">
+            <h2 className="text-sm text-white/60 uppercase tracking-wide">
+              Input Code
+            </h2>
+
             <button
               onClick={handleSample}
-              className="text-sm text-blue-600 hover:underline"
+              className="text-xs text-white/50 hover:text-white transition"
             >
               Try sample
             </button>
@@ -104,34 +110,39 @@ export default function Dashboard() {
           <textarea
             value={code}
             onChange={(e) => setCode(e.target.value)}
-            placeholder="Paste your code here..."
-            className="w-full h-48 p-3 border rounded-lg font-mono text-sm focus:outline-none"
+            placeholder="// Paste your code here..."
+            className="w-full h-52 p-4 bg-black border border-white/10 rounded-lg font-mono text-sm focus:outline-none focus:border-white"
           />
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.95 }}
             onClick={handleSubmit}
             disabled={loading}
-            className="mt-3 bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2"
+            className="mt-4 relative overflow-hidden border border-white px-5 py-2 rounded-lg group"
           >
-            {loading && (
-              <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
-            )}
-            {loading ? "Analyzing..." : "Review Code"}
-          </button>
+            <span className="relative z-10 group-hover:text-black transition">
+              {loading ? "Analyzing..." : "Review Code"}
+            </span>
+            <span className="absolute inset-0 bg-white scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+          </motion.button>
+
         </div>
 
         {/* Output */}
         <div
           ref={resultRef}
-          className="bg-white p-4 rounded-xl shadow relative"
+          className="border border-white/20 bg-black/60 backdrop-blur p-5 rounded-2xl relative"
         >
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="text-lg font-medium">AI Review</h2>
+          <div className="flex justify-between items-center mb-3">
+            <h2 className="text-sm text-white/60 uppercase tracking-wide">
+              AI Review
+            </h2>
 
             {result && (
               <button
                 onClick={handleCopy}
-                className="text-sm text-blue-600 hover:underline"
+                className="text-xs text-white/50 hover:text-white transition"
               >
                 Copy
               </button>
@@ -139,29 +150,29 @@ export default function Dashboard() {
           </div>
 
           {loading ? (
-            <p className="text-gray-500 animate-pulse">
-              Generating response...
+            <p className="text-white/40 animate-pulse">
+              AI is analyzing your code...
             </p>
           ) : result ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
             >
               <ReactMarkdown
                 components={{
-                  code({ inline, className, children, ...props }) {
-                    const match = /language-(\w+)/.exec(className || "");
+                  code({ inline, className, children }) {
+                    const match = /language-(\\w+)/.exec(className || "");
                     return !inline && match ? (
                       <SyntaxHighlighter
                         style={oneDark}
                         language={match[1]}
-                        PreTag="div"
                       >
-                        {String(children).replace(/\n$/, "")}
+                        {String(children).replace(/\\n$/, "")}
                       </SyntaxHighlighter>
                     ) : (
-                      <code>{children}</code>
+                      <code className="bg-white/10 px-1 rounded">
+                        {children}
+                      </code>
                     );
                   },
                 }}
@@ -170,11 +181,12 @@ export default function Dashboard() {
               </ReactMarkdown>
             </motion.div>
           ) : (
-            <p className="text-gray-400">
-              Your review will appear here...
+            <p className="text-white/30">
+              Your AI review will appear here...
             </p>
           )}
         </div>
+
       </div>
     </div>
   );

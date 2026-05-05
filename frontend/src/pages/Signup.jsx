@@ -3,6 +3,8 @@ import signup from "../controllers/signupController.js";
 import googleLogin from "../controllers/googleLogin.js";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
+import AuthNavbar from "../components/Navbar.jsx";
 
 export default function SignupPage() {
   const navigate = useNavigate();
@@ -45,9 +47,8 @@ export default function SignupPage() {
     try {
       setLoading(true);
       await googleLogin();
-      toast.success("Signed up with Google!");
       navigate("/dashboard");
-    } catch (err) {
+    } catch {
       toast.error("Google signup failed");
     } finally {
       setLoading(false);
@@ -55,69 +56,98 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-md bg-white p-6 rounded-2xl shadow-md">
-        <h2 className="text-2xl font-semibold text-center mb-6">
-          Create an Account
+    <div className="min-h-screen bg-black text-white flex items-center justify-center px-4 relative overflow-hidden">
+      <AuthNavbar type="signup" />
+      {/* Background glow */}
+      <div className="absolute w-[400px] h-[400px] bg-white/10 blur-3xl rounded-full top-[-100px] left-[-100px] animate-pulse"></div>
+      <div className="absolute w-[400px] h-[400px] bg-white/10 blur-3xl rounded-full bottom-[-100px] right-[-100px] animate-pulse"></div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-md border border-white/20 bg-black/60 backdrop-blur p-8 rounded-2xl"
+      >
+        {/* Title */}
+        <h2 className="text-2xl font-semibold text-center mb-2">
+          Create your account
         </h2>
 
+        <p className="text-sm text-white/50 text-center mb-6">
+          Start reviewing your code with AI
+        </p>
+
+        {/* Form */}
         <form onSubmit={handleSignup} className="space-y-4">
-          <input
+
+          <motion.input
+            whileFocus={{ scale: 1.02 }}
             type="email"
             name="email"
             placeholder="Email"
             required
             value={form.email}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
+            className="w-full px-4 py-3 bg-black border border-white/20 rounded-lg focus:outline-none focus:border-white"
           />
 
-          <input
+          <motion.input
+            whileFocus={{ scale: 1.02 }}
             type="password"
             name="password"
             placeholder="Password"
             required
             value={form.password}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
+            className="w-full px-4 py-3 bg-black border border-white/20 rounded-lg focus:outline-none focus:border-white"
           />
 
-          <input
+          <motion.input
+            whileFocus={{ scale: 1.02 }}
             type="password"
             name="confirmPassword"
             placeholder="Confirm Password"
             required
             value={form.confirmPassword}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
+            className="w-full px-4 py-3 bg-black border border-white/20 rounded-lg focus:outline-none focus:border-white"
           />
 
-          <button
+          {/* Signup button */}
+          <motion.button
             type="submit"
             disabled={loading}
-            className="w-full bg-black text-white py-2 rounded-lg hover:opacity-90 transition"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-full relative overflow-hidden border border-white py-3 rounded-lg group"
           >
-            {loading ? "Creating..." : "Sign Up"}
-          </button>
+            <span className="relative z-10 group-hover:text-black transition">
+              {loading ? "Creating..." : "Sign Up"}
+            </span>
+            <span className="absolute inset-0 bg-white scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+          </motion.button>
         </form>
 
-        <div className="my-4 text-center text-gray-500">or</div>
+        {/* Divider */}
+        <div className="my-6 text-center text-white/30">or</div>
 
-        <button
+        {/* Google */}
+        <motion.button
+          whileHover={{ scale: 1.03 }}
           onClick={handleGoogleSignup}
           disabled={loading}
-          className="w-full border py-2 rounded-lg hover:bg-gray-50 transition"
+          className="w-full border border-white/20 py-3 rounded-lg hover:bg-white hover:text-black transition"
         >
           Continue with Google
-        </button>
+        </motion.button>
 
-        <p className="text-sm text-center mt-4">
+        {/* Login */}
+        <p className="text-sm text-center mt-6 text-white/60">
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-600 hover:underline">
+          <Link to="/login" className="text-white hover:underline">
             Login
           </Link>
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 }
