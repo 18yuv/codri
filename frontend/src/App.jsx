@@ -7,22 +7,30 @@ import SignupPage from "./pages/Signup.jsx"
 import ProtectedRoute from "./components/protectedRoute.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import { useAuth } from "./context/authContext.jsx";
-
+import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 
 function App() {
   const { loading } = useAuth();
+  const location = useLocation();
 
   if (loading) return <p>Initializing...</p>;
   return (
     <>
       <Toaster position="top-right" />
-      <Routes>
-        <Route index element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/dashboard" element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <motion.div
+        key={location.pathname}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}>
+        <Routes>
+          <Route index element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/dashboard" element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </motion.div>
     </>
   )
 }

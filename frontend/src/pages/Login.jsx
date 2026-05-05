@@ -4,6 +4,7 @@ import googleLogin from "../controllers/googleLogin.js";
 import resetPassword from "../controllers/forgotPassword.js";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -24,7 +25,6 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
       setLoading(true);
       await login(form.email, form.password);
@@ -43,7 +43,7 @@ export default function LoginPage() {
       await googleLogin();
       toast.success("Logged in with Google!");
       navigate("/dashboard");
-    } catch (err) {
+    } catch {
       toast.error("Google login failed");
     } finally {
       setLoading(false);
@@ -54,11 +54,10 @@ export default function LoginPage() {
     if (!form.email) {
       return toast.error("Enter your email first");
     }
-
     try {
       await resetPassword(form.email);
       toast.success("Password reset email sent!");
-    } catch (err) {
+    } catch {
       toast.error("Failed to send reset email");
     }
   };
@@ -71,40 +70,48 @@ export default function LoginPage() {
       case "auth/wrong-password":
         toast.error("Incorrect password");
         break;
-      case "auth/invalid-email":
-        toast.error("Invalid email");
-        break;
       default:
         toast.error("Login failed");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-md bg-white p-6 rounded-2xl shadow-md">
+    <motion.div
+      className="min-h-screen flex items-center justify-center bg-gray-100 px-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      <motion.div
+        initial={{ y: 40, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md bg-white p-6 rounded-2xl shadow-md"
+      >
         <h2 className="text-2xl font-semibold text-center mb-6">
           Welcome Back
         </h2>
 
         <form onSubmit={handleLogin} className="space-y-4">
-          <input
+          <motion.input
+            whileFocus={{ scale: 1.02 }}
             type="email"
             name="email"
             placeholder="Email"
             required
             value={form.email}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none"
           />
 
-          <input
+          <motion.input
+            whileFocus={{ scale: 1.02 }}
             type="password"
             name="password"
             placeholder="Password"
             required
             value={form.password}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none"
           />
 
           <div className="flex justify-end text-sm">
@@ -117,24 +124,27 @@ export default function LoginPage() {
             </button>
           </div>
 
-          <button
+          <motion.button
             type="submit"
             disabled={loading}
-            className="w-full bg-black text-white py-2 rounded-lg hover:opacity-90 transition"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-full bg-black text-white py-2 rounded-lg"
           >
             {loading ? "Logging in..." : "Login"}
-          </button>
+          </motion.button>
         </form>
 
         <div className="my-4 text-center text-gray-500">or</div>
 
-        <button
+        <motion.button
+          whileHover={{ scale: 1.03 }}
           onClick={handleGoogleLogin}
           disabled={loading}
           className="w-full border py-2 rounded-lg hover:bg-gray-50 transition"
         >
           Continue with Google
-        </button>
+        </motion.button>
 
         <p className="text-sm text-center mt-4">
           Don’t have an account?{" "}
@@ -142,7 +152,7 @@ export default function LoginPage() {
             Sign up
           </Link>
         </p>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

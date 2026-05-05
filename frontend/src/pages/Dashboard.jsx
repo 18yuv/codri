@@ -5,6 +5,8 @@ import logout from "../controllers/logout.js";
 import toast from "react-hot-toast";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { motion } from "framer-motion";
+import ReactMarkdown from "react-markdown";
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -141,17 +143,32 @@ export default function Dashboard() {
               Generating response...
             </p>
           ) : result ? (
-            <SyntaxHighlighter
-              language="javascript"
-              style={oneDark}
-              customStyle={{
-                borderRadius: "10px",
-                padding: "16px",
-                fontSize: "13px",
-              }}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
             >
-              {result}
-            </SyntaxHighlighter>
+              <ReactMarkdown
+                components={{
+                  code({ inline, className, children, ...props }) {
+                    const match = /language-(\w+)/.exec(className || "");
+                    return !inline && match ? (
+                      <SyntaxHighlighter
+                        style={oneDark}
+                        language={match[1]}
+                        PreTag="div"
+                      >
+                        {String(children).replace(/\n$/, "")}
+                      </SyntaxHighlighter>
+                    ) : (
+                      <code>{children}</code>
+                    );
+                  },
+                }}
+              >
+                {result}
+              </ReactMarkdown>
+            </motion.div>
           ) : (
             <p className="text-gray-400">
               Your review will appear here...
