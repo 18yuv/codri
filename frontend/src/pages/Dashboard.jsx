@@ -158,7 +158,43 @@ export default function Dashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <div className="prose prose-invert max-w-none prose-p:text-white/80 prose-headings:text-white prose-strong:text-white prose-code:text-white prose-pre:border prose-pre:border-white/10 prose-pre:rounded-xl">
+              <div
+                className="
+    max-w-none
+    text-white/90
+    leading-8
+    text-[15px]
+
+    prose
+    prose-invert
+
+    prose-p:mb-4
+    prose-p:text-white/80
+
+    prose-headings:text-white
+    prose-headings:font-semibold
+
+    prose-strong:text-white
+
+    prose-code:text-green-300
+    prose-code:bg-white/5
+    prose-code:px-1.5
+    prose-code:py-0.5
+    prose-code:rounded-md
+    prose-code:before:hidden
+    prose-code:after:hidden
+
+    prose-pre:bg-[#111]
+    prose-pre:border
+    prose-pre:border-white/10
+    prose-pre:rounded-2xl
+    prose-pre:p-0
+    prose-pre:overflow-x-auto
+
+    prose-li:text-white/80
+    prose-ul:text-white/80
+  "
+              >
                 <ReactMarkdown
                   components={{
                     code({ inline, className, children }) {
@@ -167,6 +203,16 @@ export default function Dashboard() {
                         <SyntaxHighlighter
                           style={oneDark}
                           language={match[1]}
+                          customStyle={{
+                            margin: 0,
+                            padding: "20px",
+                            background: "#111",
+                            borderRadius: "16px",
+                            fontSize: "14px",
+                            lineHeight: "1.7",
+                          }}
+                          wrapLongLines={true}
+                          showLineNumbers={true}
                         >
                           {String(children).replace(/\\n$/, "")}
                         </SyntaxHighlighter>
