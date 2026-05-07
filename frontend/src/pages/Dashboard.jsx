@@ -158,27 +158,29 @@ export default function Dashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <ReactMarkdown
-                components={{
-                  code({ inline, className, children }) {
-                    const match = /language-(\\w+)/.exec(className || "");
-                    return !inline && match ? (
-                      <SyntaxHighlighter
-                        style={oneDark}
-                        language={match[1]}
-                      >
-                        {String(children).replace(/\\n$/, "")}
-                      </SyntaxHighlighter>
-                    ) : (
-                      <code className="bg-white/10 px-1 rounded">
-                        {children}
-                      </code>
-                    );
-                  },
-                }}
-              >
-                {result}
-              </ReactMarkdown>
+              <div className="prose prose-invert max-w-none prose-p:text-white/80 prose-headings:text-white prose-strong:text-white prose-code:text-white prose-pre:border prose-pre:border-white/10 prose-pre:rounded-xl">
+                <ReactMarkdown
+                  components={{
+                    code({ inline, className, children }) {
+                      const match = /language-(\\w+)/.exec(className || "");
+                      return !inline && match ? (
+                        <SyntaxHighlighter
+                          style={oneDark}
+                          language={match[1]}
+                        >
+                          {String(children).replace(/\\n$/, "")}
+                        </SyntaxHighlighter>
+                      ) : (
+                        <code className="text-white bg-white/5 px-1 py-0.5 rounded text-sm">
+                          {children}
+                        </code>
+                      );
+                    },
+                  }}
+                >
+                  {result}
+                </ReactMarkdown>
+              </div>
             </motion.div>
           ) : (
             <p className="text-white/30">
