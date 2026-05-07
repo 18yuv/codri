@@ -1,13 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import signup from "../controllers/signupController.js";
 import googleLogin from "../controllers/googleLogin.js";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
+import { useAuth } from "../context/authContext.jsx";
 import AuthNavbar from "../components/Navbar.jsx";
 
 export default function SignupPage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user]);
 
   const [form, setForm] = useState({
     email: "",
@@ -47,7 +54,6 @@ export default function SignupPage() {
     try {
       setLoading(true);
       await googleLogin();
-      navigate("/dashboard");
     } catch {
       toast.error("Google signup failed");
     } finally {

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "../context/authContext.jsx";
 import login from "../controllers/loginController.js";
 import googleLogin from "../controllers/googleLogin.js";
 import resetPassword from "../controllers/forgotPassword.js";
@@ -9,6 +10,12 @@ import AuthNavbar from "../components/Navbar.jsx";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user]);
 
   const [form, setForm] = useState({
     email: "",
@@ -42,7 +49,6 @@ export default function LoginPage() {
     try {
       setLoading(true);
       await googleLogin();
-      navigate("/dashboard");
     } catch {
       toast.error("Google login failed");
     } finally {
@@ -62,26 +68,26 @@ export default function LoginPage() {
     }
   };
 
-const handleError = (err) => {
-  switch (err.code) {
-    case "auth/user-not-found":
-      toast.error("User not found");
-      break;
-    case "auth/wrong-password":
-      toast.error("Incorrect password");
-      break;
-    case "auth/invalid-email":
-      toast.error("Invalid email");
-      break;
+  const handleError = (err) => {
+    switch (err.code) {
+      case "auth/user-not-found":
+        toast.error("User not found");
+        break;
+      case "auth/wrong-password":
+        toast.error("Incorrect password");
+        break;
+      case "auth/invalid-email":
+        toast.error("Invalid email");
+        break;
 
-    case "EMAIL_NOT_VERIFIED":
-      toast.error("Please verify your email first");
-      break;
+      case "EMAIL_NOT_VERIFIED":
+        toast.error("Please verify your email first");
+        break;
 
-    default:
-      toast.error("Login failed");
-  }
-};
+      default:
+        toast.error("Login failed");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center px-4 relative overflow-hidden">
