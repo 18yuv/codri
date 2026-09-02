@@ -8,7 +8,7 @@
 
 ## What is Codri?
 
-Codri is a full-stack web application that leverages Google's Gemini generative AI to review code submitted by users. Instead of waiting for manual peer reviews, developers can paste their code and instantly receive detailed, structured feedback powered by customizable AI system instructions and prompts. Whether you're debugging, optimizing, or learning best practices, Codri gives you an expert second opinion — on demand.
+Codri is a full-stack web application that leverages Google's Gemini generative AI to review code submitted by users. Instead of waiting for manual peer reviews, developers can paste their code and instantly receive detailed, structured feedback powered by customizable AI system instructions and prompts. Whether you're debugging, optimizing, or learning best practices, Codri gives you an expert second opinion - on demand.
 
 ---
 
